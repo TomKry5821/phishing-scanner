@@ -1,0 +1,42 @@
+plugins {
+    id 'java'
+    id 'groovy'
+    alias libs.plugins.spring.dependency.management.plugin
+    alias libs.plugins.spring.boot.plugin
+    alias libs.plugins.lombok.plugin
+}
+
+group = 'pl.tk.phishing-scanner'
+version = '0.0.1-SNAPSHOT'
+description = 'phishing-scanner'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation libs.bundles.spring.boot
+
+    implementation libs.groovy
+
+    testImplementation libs.bundles.test.spock
+    testImplementation libs.spring.boot.starter.test
+
+    annotationProcessor libs.spring.boot.config.processor
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
