@@ -33,6 +33,19 @@ public class PhishingScannerUserServiceImpl implements PhishingScannerUserServic
     }
   }
 
+  @Override
+  public void removeUserByPhoneNumber(PhoneNumber phoneNumber) {
+    try {
+      repository.deleteByPhoneNumber(phoneNumber.getNumberAsString());
+    } catch (DataAccessException | IllegalArgumentException e) {
+      log.warn(
+          "There was problem while deleting phone number: {} from database: {}, {}",
+          phoneNumber,
+          e.getClass(),
+          e.getMessage());
+    }
+  }
+
   private Optional<PhoneNumber> saveUser(PhoneNumber phoneNumber) {
     if (repository.existsByPhoneNumber(phoneNumber.getNumberAsString())) {
       log.debug("User with number already exists: {}", phoneNumber);

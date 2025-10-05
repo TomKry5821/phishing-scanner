@@ -8,4 +8,6 @@ import pl.tk.phishingscanner.infra.persistence.entity.PhishingScannerUser;
 public interface PhishingScannerUserRepository extends JpaRepository<PhishingScannerUser, Long> {
 
   boolean existsByPhoneNumber(String phoneNumber);
+
+  void deleteByPhoneNumber(String phoneNumber);
 }

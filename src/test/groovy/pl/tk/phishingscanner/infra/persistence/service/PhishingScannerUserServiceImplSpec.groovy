@@ -3,15 +3,23 @@ package pl.tk.phishingscanner.infra.persistence.service
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import pl.tk.phishingscanner.domain.model.PhoneNumber
+import pl.tk.phishingscanner.infra.persistence.repository.PhishingScannerUserRepository
 import spock.lang.Specification
 
 @SpringBootTest
 class PhishingScannerUserServiceImplSpec extends Specification {
 
-    public static final PhoneNumber PHONE_NUMBER = new PhoneNumber("48123123123")
+    private static final PhoneNumber PHONE_NUMBER = new PhoneNumber("48123123123")
+
+    @Autowired
+    private PhishingScannerUserRepository repository
 
     @Autowired
     private PhishingScannerUserServiceImpl subject
+
+    void setup() {
+        repository.deleteAll()
+    }
 
     void 'Should add new user to db'() {
         given:
@@ -31,5 +39,16 @@ class PhishingScannerUserServiceImplSpec extends Specification {
 
         then:
         result.get() == PHONE_NUMBER
+    }
+
+    void 'Should delete user from db'() {
+        given:
+        subject.addUserByPhoneNumber(PHONE_NUMBER)
+
+        when:
+        subject.removeUserByPhoneNumber(PHONE_NUMBER)
+
+        then:
+        !repository.existsByPhoneNumber(PHONE_NUMBER.numberAsString)
     }
 }
