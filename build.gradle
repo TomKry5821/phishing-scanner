@@ -36,6 +36,8 @@ dependencies {
     testImplementation libs.bundles.test.spock
     testImplementation libs.spring.boot.starter.test
 
+    runtimeOnly libs.h2db
+
     annotationProcessor libs.spring.boot.config.processor
 }
 

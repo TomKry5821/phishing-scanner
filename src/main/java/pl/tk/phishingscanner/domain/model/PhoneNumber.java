@@ -1,5 +1,7 @@
 package pl.tk.phishingscanner.domain.model;
 
+import static java.lang.String.valueOf;
+
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
@@ -24,5 +26,9 @@ public class PhoneNumber {
       throw new IllegalArgumentException(
           "Invalid phone number format: %s".formatted(rawPhoneNumber));
     }
+  }
+
+  public String getNumberAsString() {
+    return valueOf(countryCode).concat(valueOf(number));
   }
 }
