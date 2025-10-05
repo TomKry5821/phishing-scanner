@@ -11,6 +11,7 @@ spock-version = '2.4-M6-groovy-4.0'
 [libraries]
 spring-boot-config-processor = { group = 'org.springframework.boot', name = 'spring-boot-configuration-processor', version.ref = 'spring-boot-version' }
 spring-boot-starter = { group = 'org.springframework.boot', name = 'spring-boot-starter', version.ref = 'spring-boot-version' }
+spring-boot-starter-webflux = { group = 'org.springframework.boot', name = 'spring-boot-starter-webflux', version.ref = 'spring-boot-version' }
 
 spock-core = { group = 'org.spockframework', name = 'spock-core', version.ref = 'spock-version' }
 spock-spring = { group = 'org.spockframework', name = 'spock-spring', version.ref = 'spock-version' }
@@ -27,6 +28,7 @@ lombok-plugin = { id = 'io.freefair.lombok', version.ref = 'lombok-plugin-versio
 [bundles]
 spring-boot = [
     'spring-boot-starter',
+    'spring-boot-starter-webflux'
 ]
 test-spock = [
     'spock-core',
