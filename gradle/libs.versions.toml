@@ -3,6 +3,8 @@ spring-dependency-management-version = '1.1.7'
 
 spring-boot-version = '3.5.6'
 
+google-libphonenumber-version = '9.0.15'
+
 lombok-plugin-version = '8.14'
 
 groovy-version = '4.0.27'
@@ -12,6 +14,8 @@ spock-version = '2.4-M6-groovy-4.0'
 spring-boot-config-processor = { group = 'org.springframework.boot', name = 'spring-boot-configuration-processor', version.ref = 'spring-boot-version' }
 spring-boot-starter = { group = 'org.springframework.boot', name = 'spring-boot-starter', version.ref = 'spring-boot-version' }
 spring-boot-starter-webflux = { group = 'org.springframework.boot', name = 'spring-boot-starter-webflux', version.ref = 'spring-boot-version' }
+
+google-libphonenumber = { group = 'com.googlecode.libphonenumber', name = 'libphonenumber', version.ref = 'google-libphonenumber-version' }
 
 spock-core = { group = 'org.spockframework', name = 'spock-core', version.ref = 'spock-version' }
 spock-spring = { group = 'org.spockframework', name = 'spock-spring', version.ref = 'spock-version' }

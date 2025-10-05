@@ -29,6 +29,8 @@ repositories {
 dependencies {
     implementation libs.bundles.spring.boot
 
+    implementation libs.google.libphonenumber
+
     implementation libs.groovy
 
     testImplementation libs.bundles.test.spock
