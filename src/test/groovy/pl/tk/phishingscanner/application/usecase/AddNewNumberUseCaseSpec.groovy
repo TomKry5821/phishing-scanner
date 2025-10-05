@@ -8,8 +8,8 @@ import pl.tk.phishingscanner.domain.model.PhoneNumber
 import pl.tk.phishingscanner.domain.model.TextMessage
 import spock.lang.Specification
 
-import static pl.tk.phishingscanner.application.AddNewNumberResult.FAILURE
-import static pl.tk.phishingscanner.application.AddNewNumberResult.SUCCESS
+import static pl.tk.phishingscanner.application.enums.AddNewNumberResult.FAILURE
+import static pl.tk.phishingscanner.application.enums.AddNewNumberResult.SUCCESS
 
 @SpringBootTest
 class AddNewNumberUseCaseSpec extends Specification {

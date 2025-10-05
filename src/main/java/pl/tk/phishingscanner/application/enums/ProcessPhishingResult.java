@@ -1,4 +1,4 @@
-package pl.tk.phishingscanner.application;
+package pl.tk.phishingscanner.application.enums;
 
 public enum ProcessPhishingResult {
   PHISHING_DETECTED,

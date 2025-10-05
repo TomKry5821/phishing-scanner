@@ -5,7 +5,7 @@ import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import pl.tk.phishingscanner.application.ProcessPhishingResult;
+import pl.tk.phishingscanner.application.enums.ProcessPhishingResult;
 import pl.tk.phishingscanner.application.port.PhishingTextMessageSender;
 import pl.tk.phishingscanner.application.port.SafeTextMessageSender;
 import pl.tk.phishingscanner.application.port.UriVerifier;
