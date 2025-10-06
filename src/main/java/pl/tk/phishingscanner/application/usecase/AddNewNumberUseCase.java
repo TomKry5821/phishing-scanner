@@ -1,13 +1,12 @@
 package pl.tk.phishingscanner.application.usecase;
 
-import static pl.tk.phishingscanner.application.enums.ProcessUseCaseResult.of;
+import static pl.tk.phishingscanner.application.usecase.ProcessUseCaseResult.of;
 import static pl.tk.phishingscanner.domain.model.TextMessageType.ADD_NUMBER_FOR_SCAN;
 
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import pl.tk.phishingscanner.application.enums.ProcessUseCaseResult;
 import pl.tk.phishingscanner.application.port.PhishingScannerUserService;
 import pl.tk.phishingscanner.domain.model.PhoneNumber;
 import pl.tk.phishingscanner.domain.model.TextMessage;

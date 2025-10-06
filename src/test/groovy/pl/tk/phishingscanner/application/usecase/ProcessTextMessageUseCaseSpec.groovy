@@ -8,8 +8,8 @@ import pl.tk.phishingscanner.domain.model.PhoneNumber
 import pl.tk.phishingscanner.domain.model.TextMessage
 import spock.lang.Specification
 
-import static pl.tk.phishingscanner.application.enums.ProcessUseCaseResult.FAILURE
-import static pl.tk.phishingscanner.application.enums.ProcessUseCaseResult.SUCCESS
+import static ProcessUseCaseResult.FAILURE
+import static ProcessUseCaseResult.SUCCESS
 
 @SpringBootTest
 class ProcessTextMessageUseCaseSpec extends Specification {

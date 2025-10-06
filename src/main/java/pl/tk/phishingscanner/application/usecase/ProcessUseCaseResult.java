@@ -1,4 +1,4 @@
-package pl.tk.phishingscanner.application.enums;
+package pl.tk.phishingscanner.application.usecase;
 
 public enum ProcessUseCaseResult {
   SUCCESS,

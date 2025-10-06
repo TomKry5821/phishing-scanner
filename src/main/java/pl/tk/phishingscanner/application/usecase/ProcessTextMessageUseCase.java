@@ -1,6 +1,6 @@
 package pl.tk.phishingscanner.application.usecase;
 
-import static pl.tk.phishingscanner.application.enums.ProcessUseCaseResult.of;
+import static pl.tk.phishingscanner.application.usecase.ProcessUseCaseResult.of;
 import static pl.tk.phishingscanner.domain.model.TextMessageType.SCAN_MESSAGE;
 
 import java.net.URI;
@@ -8,7 +8,6 @@ import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import pl.tk.phishingscanner.application.enums.ProcessUseCaseResult;
 import pl.tk.phishingscanner.application.port.PhishingTextMessageSender;
 import pl.tk.phishingscanner.application.port.SafeTextMessageSender;
 import pl.tk.phishingscanner.application.port.UriVerifier;
