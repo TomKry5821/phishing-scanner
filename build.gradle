@@ -28,6 +28,7 @@ repositories {
 
 dependencies {
     implementation libs.bundles.spring.boot
+    implementation libs.bundles.spring.cloud.stream
 
     implementation libs.google.libphonenumber
 
@@ -35,6 +36,7 @@ dependencies {
 
     testImplementation libs.bundles.test.spock
     testImplementation libs.spring.boot.starter.test
+    testImplementation libs.spring.cloud.stream.test.binder
 
     runtimeOnly libs.h2db
 
