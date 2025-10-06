@@ -1,45 +1,54 @@
 package pl.tk.phishingscanner.application.usecase;
 
+import static pl.tk.phishingscanner.application.enums.ProcessUseCaseResult.of;
+import static pl.tk.phishingscanner.domain.model.TextMessageType.SCAN_MESSAGE;
+
 import java.net.URI;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import pl.tk.phishingscanner.application.enums.ProcessPhishingResult;
+import pl.tk.phishingscanner.application.enums.ProcessUseCaseResult;
 import pl.tk.phishingscanner.application.port.PhishingTextMessageSender;
 import pl.tk.phishingscanner.application.port.SafeTextMessageSender;
 import pl.tk.phishingscanner.application.port.UriVerifier;
 import pl.tk.phishingscanner.domain.logic.UriExtractor;
 import pl.tk.phishingscanner.domain.model.TextMessage;
+import pl.tk.phishingscanner.domain.model.TextMessageType;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class ProcessTextMessageUseCase {
+public class ProcessTextMessageUseCase implements UseCase {
 
   private final UriExtractor uriExtractor;
   private final UriVerifier uriVerifier;
   private final SafeTextMessageSender safeTextMessageSender;
   private final PhishingTextMessageSender phishingTextMessageSender;
 
-  public ProcessPhishingResult execute(TextMessage message) {
-    log.trace("Scanning text message: {} for phishing", message);
-    ProcessPhishingResult result = scanMessage(message.message());
+  @Override
+  public ProcessUseCaseResult execute(TextMessage message) {
+    log.trace("Scanning text content: {} for phishing", message);
+    ProcessUseCaseResult result = scanMessage(message.content());
 
     switch (result) {
-      case PHISHING_DETECTED -> phishingTextMessageSender.send(message);
-      case NOT_PHISHING_DETECTED -> safeTextMessageSender.send(message);
+      case FAILURE -> phishingTextMessageSender.send(message);
+      case SUCCESS -> safeTextMessageSender.send(message);
     }
-
     return result;
   }
 
-  private ProcessPhishingResult scanMessage(String message) {
+  private ProcessUseCaseResult scanMessage(String message) {
     Set<URI> uris = uriExtractor.extractFromMessage(message);
-    boolean phishingDetected = uris.stream().anyMatch(uriVerifier::containsPhishing);
-    ProcessPhishingResult result = ProcessPhishingResult.of(phishingDetected);
+    boolean isSafe = uris.stream().noneMatch(uriVerifier::containsPhishing);
+    ProcessUseCaseResult result = of(isSafe);
 
-    log.debug("Scanning message: {} completed. Result: {}", message, result);
+    log.debug("Scanning content: {} completed. Result: {}", message, result);
     return result;
+  }
+
+  @Override
+  public boolean isTextMessageTypeProcessed(TextMessageType textMessageType) {
+    return SCAN_MESSAGE == textMessageType;
   }
 }

@@ -8,15 +8,15 @@ import pl.tk.phishingscanner.domain.model.PhoneNumber
 import pl.tk.phishingscanner.domain.model.TextMessage
 import spock.lang.Specification
 
-import static pl.tk.phishingscanner.application.enums.ProcessPhishingResult.NOT_PHISHING_DETECTED
-import static pl.tk.phishingscanner.application.enums.ProcessPhishingResult.PHISHING_DETECTED
+import static pl.tk.phishingscanner.application.enums.ProcessUseCaseResult.FAILURE
+import static pl.tk.phishingscanner.application.enums.ProcessUseCaseResult.SUCCESS
 
 @SpringBootTest
 class ProcessTextMessageUseCaseSpec extends Specification {
 
     public static final PhoneNumber PHONE_NUMBER = new PhoneNumber("48123123123")
 
-    private static final TextMessage TEXT_MESSAGE = new TextMessage(PHONE_NUMBER, PHONE_NUMBER, "Text message with https://example.com")
+    private static final TextMessage TEXT_MESSAGE = new TextMessage(PHONE_NUMBER, PHONE_NUMBER, "Text content with https://example.com")
 
     @SpringBean
     private UriVerifier uriVerifier = Mock()
@@ -24,7 +24,7 @@ class ProcessTextMessageUseCaseSpec extends Specification {
     @Autowired
     private ProcessTextMessageUseCase subject
 
-    void 'Should return PHISHING_DETECTED while processing text message'() {
+    void 'Should return failure while processing text message'() {
         given:
         uriVerifier.containsPhishing(_ as URI) >> true
 
@@ -32,10 +32,10 @@ class ProcessTextMessageUseCaseSpec extends Specification {
         def result = subject.execute(TEXT_MESSAGE)
 
         then:
-        result == PHISHING_DETECTED
+        result == FAILURE
     }
 
-    void 'Should return PHISHING_DETECTED while processing text message'() {
+    void 'Should return success while processing text message'() {
         given:
         uriVerifier.containsPhishing(_ as URI) >> false
 
@@ -43,6 +43,6 @@ class ProcessTextMessageUseCaseSpec extends Specification {
         def result = subject.execute(TEXT_MESSAGE)
 
         then:
-        result == NOT_PHISHING_DETECTED
+        result == SUCCESS
     }
 }

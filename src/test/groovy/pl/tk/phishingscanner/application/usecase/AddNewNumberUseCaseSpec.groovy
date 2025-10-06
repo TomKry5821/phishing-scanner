@@ -8,15 +8,15 @@ import pl.tk.phishingscanner.domain.model.PhoneNumber
 import pl.tk.phishingscanner.domain.model.TextMessage
 import spock.lang.Specification
 
-import static pl.tk.phishingscanner.application.enums.AddNewNumberResult.FAILURE
-import static pl.tk.phishingscanner.application.enums.AddNewNumberResult.SUCCESS
+import static pl.tk.phishingscanner.application.enums.ProcessUseCaseResult.FAILURE
+import static pl.tk.phishingscanner.application.enums.ProcessUseCaseResult.SUCCESS
 
 @SpringBootTest
 class AddNewNumberUseCaseSpec extends Specification {
 
     public static final PhoneNumber PHONE_NUMBER = new PhoneNumber("48123123123")
 
-    private static final TextMessage TEXT_MESSAGE = new TextMessage(PHONE_NUMBER, PHONE_NUMBER, "Text message with https://example.com")
+    private static final TextMessage TEXT_MESSAGE = new TextMessage(PHONE_NUMBER, PHONE_NUMBER, "Text content with https://example.com")
 
     @SpringBean
     private PhishingScannerUserService phishingScannerUserService = Mock()
