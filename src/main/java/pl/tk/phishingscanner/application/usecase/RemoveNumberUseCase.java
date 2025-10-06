@@ -6,6 +6,7 @@ import static pl.tk.phishingscanner.domain.model.TextMessageType.REMOVE_NUMBER_F
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import pl.tk.phishingscanner.application.config.PhishingScannerConfiguration;
 import pl.tk.phishingscanner.application.port.PhishingScannerUserService;
 import pl.tk.phishingscanner.domain.model.PhoneNumber;
 import pl.tk.phishingscanner.domain.model.TextMessage;
@@ -17,6 +18,7 @@ import pl.tk.phishingscanner.domain.model.TextMessageType;
 public class RemoveNumberUseCase implements UseCase {
 
   private final PhishingScannerUserService phishingScannerUserService;
+  private final PhishingScannerConfiguration config;
 
   public ProcessUseCaseResult execute(TextMessage textMessage) {
     PhoneNumber sender = textMessage.sender();
@@ -30,5 +32,10 @@ public class RemoveNumberUseCase implements UseCase {
   @Override
   public boolean isTextMessageTypeProcessed(TextMessageType textMessageType) {
     return REMOVE_NUMBER_FROM_SCAN == textMessageType;
+  }
+
+  @Override
+  public boolean acceptsPhoneNumber(PhoneNumber phoneNumber) {
+    return config.getScannerPhoneNumber().equals(phoneNumber.getNumberAsString());
   }
 }

@@ -14,6 +14,7 @@ import pl.tk.phishingscanner.application.port.PhishingTextMessageSender;
 import pl.tk.phishingscanner.application.port.SafeTextMessageSender;
 import pl.tk.phishingscanner.application.port.UriVerifier;
 import pl.tk.phishingscanner.domain.logic.UriExtractor;
+import pl.tk.phishingscanner.domain.model.PhoneNumber;
 import pl.tk.phishingscanner.domain.model.TextMessage;
 import pl.tk.phishingscanner.domain.model.TextMessageType;
 
@@ -60,5 +61,10 @@ public class ProcessTextMessageUseCase implements UseCase {
 
     log.debug("Scanning content: {} completed. Result: {}", message, result);
     return result;
+  }
+
+  @Override
+  public boolean acceptsPhoneNumber(PhoneNumber phoneNumber) {
+    return true;
   }
 }

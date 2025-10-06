@@ -36,6 +36,6 @@ public class TextMessageEventConsumer {
   }
 
   private void handle(TextMessage message) {
-    strategy.getUseCase(message.type()).execute(message);
+    strategy.getUseCase(message).execute(message);
   }
 }
