@@ -8,4 +8,6 @@ public interface PhishingScannerUserService {
   Optional<PhoneNumber> addUserByPhoneNumber(PhoneNumber phoneNumber);
 
   void removeUserByPhoneNumber(PhoneNumber phoneNumber);
+
+  boolean isUser(PhoneNumber phoneNumber);
 }

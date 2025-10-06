@@ -1,5 +1,6 @@
 package pl.tk.phishingscanner.application.usecase;
 
+import static pl.tk.phishingscanner.application.usecase.ProcessUseCaseResult.SUCCESS;
 import static pl.tk.phishingscanner.application.usecase.ProcessUseCaseResult.of;
 import static pl.tk.phishingscanner.domain.model.TextMessageType.SCAN_MESSAGE;
 
@@ -8,6 +9,7 @@ import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import pl.tk.phishingscanner.application.port.PhishingScannerUserService;
 import pl.tk.phishingscanner.application.port.PhishingTextMessageSender;
 import pl.tk.phishingscanner.application.port.SafeTextMessageSender;
 import pl.tk.phishingscanner.application.port.UriVerifier;
@@ -24,17 +26,31 @@ public class ProcessTextMessageUseCase implements UseCase {
   private final UriVerifier uriVerifier;
   private final SafeTextMessageSender safeTextMessageSender;
   private final PhishingTextMessageSender phishingTextMessageSender;
+  private final PhishingScannerUserService phishingScannerUserService;
 
   @Override
   public ProcessUseCaseResult execute(TextMessage message) {
     log.trace("Scanning text content: {} for phishing", message);
-    ProcessUseCaseResult result = scanMessage(message.content());
+    ProcessUseCaseResult result = scanMessageIfNeeded(message);
 
     switch (result) {
       case FAILURE -> phishingTextMessageSender.send(message);
       case SUCCESS -> safeTextMessageSender.send(message);
     }
     return result;
+  }
+
+  @Override
+  public boolean isTextMessageTypeProcessed(TextMessageType textMessageType) {
+    return SCAN_MESSAGE == textMessageType;
+  }
+
+  private ProcessUseCaseResult scanMessageIfNeeded(TextMessage message) {
+    if (!phishingScannerUserService.isUser(message.receiver())) {
+      log.debug("Phone number {} is not user. Omitting scan", message.receiver());
+      return SUCCESS;
+    }
+    return scanMessage(message.content());
   }
 
   private ProcessUseCaseResult scanMessage(String message) {
@@ -44,10 +60,5 @@ public class ProcessTextMessageUseCase implements UseCase {
 
     log.debug("Scanning content: {} completed. Result: {}", message, result);
     return result;
-  }
-
-  @Override
-  public boolean isTextMessageTypeProcessed(TextMessageType textMessageType) {
-    return SCAN_MESSAGE == textMessageType;
   }
 }

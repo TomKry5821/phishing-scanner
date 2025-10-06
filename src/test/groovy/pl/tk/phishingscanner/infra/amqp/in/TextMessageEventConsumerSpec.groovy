@@ -7,7 +7,9 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.cloud.stream.binder.test.EnableTestBinder
 import org.springframework.cloud.stream.binder.test.InputDestination
 import org.springframework.cloud.stream.binder.test.OutputDestination
+import pl.tk.phishingscanner.application.port.PhishingScannerUserService
 import pl.tk.phishingscanner.application.port.UriVerifier
+import pl.tk.phishingscanner.domain.model.PhoneNumber
 import pl.tk.phishingscanner.infra.amqp.in.event.NewTextMessageEvent
 import spock.lang.Specification
 
@@ -22,7 +24,10 @@ class TextMessageEventConsumerSpec extends Specification {
     private static final String PHISHING_MESSAGES_BINDING = "phishing-messages"
 
     @SpringBean
-    UriVerifier uriVerifier = Mock()
+    private UriVerifier uriVerifier = Mock()
+
+    @SpringBean
+    private PhishingScannerUserService phishingScannerUserService = Mock()
 
     @Autowired
     private ObjectMapper objectMapper
@@ -36,6 +41,7 @@ class TextMessageEventConsumerSpec extends Specification {
     void 'Should receive and handle new text message event without phishing'() {
         given:
         uriVerifier.containsPhishing(_ as URI) >> false
+        phishingScannerUserService.isUser(_ as PhoneNumber) >> true
         def event = new NewTextMessageEvent("48123123123", "48123123123", "Test message with https://test.com")
 
         when:
@@ -50,6 +56,7 @@ class TextMessageEventConsumerSpec extends Specification {
     void 'Should receive and handle new text message event with phishing'() {
         given:
         uriVerifier.containsPhishing(_ as URI) >> true
+        phishingScannerUserService.isUser(_ as PhoneNumber) >> true
         def event = new NewTextMessageEvent("48123123123", "48123123123", "Test message with https://test.com")
 
         when:

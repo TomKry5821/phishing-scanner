@@ -3,6 +3,9 @@ package pl.tk.phishingscanner.application.usecase
 import org.spockframework.spring.SpringBean
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import pl.tk.phishingscanner.application.port.PhishingScannerUserService
+import pl.tk.phishingscanner.application.port.PhishingTextMessageSender
+import pl.tk.phishingscanner.application.port.SafeTextMessageSender
 import pl.tk.phishingscanner.application.port.UriVerifier
 import pl.tk.phishingscanner.domain.model.PhoneNumber
 import pl.tk.phishingscanner.domain.model.TextMessage
@@ -21,12 +24,23 @@ class ProcessTextMessageUseCaseSpec extends Specification {
     @SpringBean
     private UriVerifier uriVerifier = Mock()
 
+    @SpringBean
+    private PhishingScannerUserService phishingScannerUserService = Mock()
+
+    @SpringBean
+    private PhishingTextMessageSender phishingTextMessageSender = Mock()
+
+    @SpringBean
+    private SafeTextMessageSender safeTextMessageSender = Mock()
+
     @Autowired
     private ProcessTextMessageUseCase subject
 
     void 'Should return failure while processing text message'() {
         given:
         uriVerifier.containsPhishing(_ as URI) >> true
+        phishingScannerUserService.isUser(_ as PhoneNumber) >> true
+        phishingTextMessageSender.send(_ as TextMessage) >> {}
 
         when:
         def result = subject.execute(TEXT_MESSAGE)
@@ -38,6 +52,21 @@ class ProcessTextMessageUseCaseSpec extends Specification {
     void 'Should return success while processing text message'() {
         given:
         uriVerifier.containsPhishing(_ as URI) >> false
+        phishingScannerUserService.isUser(_ as PhoneNumber) >> true
+        safeTextMessageSender.send(_ as TextMessage) >> {}
+
+        when:
+        def result = subject.execute(TEXT_MESSAGE)
+
+        then:
+        result == SUCCESS
+    }
+
+    void 'Should return success while processing text message with phishing for not scanner user'() {
+        given:
+        uriVerifier.containsPhishing(_ as URI) >> true
+        phishingScannerUserService.isUser(_ as PhoneNumber) >> false
+        phishingTextMessageSender.send(_ as TextMessage) >> {}
 
         when:
         def result = subject.execute(TEXT_MESSAGE)

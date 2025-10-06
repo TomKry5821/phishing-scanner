@@ -41,6 +41,26 @@ class PhishingScannerUserServiceImplSpec extends Specification {
         result.get() == PHONE_NUMBER
     }
 
+    void 'Should return true user exists'() {
+        given:
+        subject.addUserByPhoneNumber(PHONE_NUMBER)
+
+        when:
+        def result = subject.isUser(PHONE_NUMBER)
+
+        then:
+        result
+    }
+
+    void 'Should return false is user not exists'() {
+        given:
+        when:
+        def result = subject.isUser(PHONE_NUMBER)
+
+        then:
+        !result
+    }
+
     void 'Should delete user from db'() {
         given:
         subject.addUserByPhoneNumber(PHONE_NUMBER)

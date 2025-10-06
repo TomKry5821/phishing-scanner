@@ -46,6 +46,11 @@ public class PhishingScannerUserServiceImpl implements PhishingScannerUserServic
     }
   }
 
+  @Override
+  public boolean isUser(PhoneNumber phoneNumber) {
+    return repository.existsByPhoneNumber(phoneNumber.getNumberAsString());
+  }
+
   private Optional<PhoneNumber> saveUser(PhoneNumber phoneNumber) {
     if (repository.existsByPhoneNumber(phoneNumber.getNumberAsString())) {
       log.debug("User with number already exists: {}", phoneNumber);
