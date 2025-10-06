@@ -1,0 +1,35 @@
+services:
+  rabbit:
+    image: bitnami/rabbitmq:4.0.6
+    container_name: rabbit
+    ports:
+      - "15672:15672"
+    restart: unless-stopped
+    mem_limit: 150M
+    env_file:
+      - rabbit/.env
+    environment:
+      RABBITMQ_USERNAME: ${RABBIT_USER:?Zmienna RABBIT_USER jest wymagana}
+      RABBITMQ_PASSWORD: ${RABBIT_PASSWORD:?Zmienna RABBIT_PASSWORD jest wymagana}
+    volumes:
+      - rabbitmq-data:/bitnami/rabbitmq/mnesia
+    networks:
+      - scanner-net
+
+  scanner:
+    build: ../
+    container_name: scanner
+    restart: unless-stopped
+    environment:
+      SPRING_RABBITMQ_HOST: ${RABBIT_HOST:?Zmienna RABBIT_HOST jest wymagana}
+      SPRING_RABBITMQ_PORT: ${RABBIT_PORT:?Zmienna RABBIT_PORT jest wymagana}
+      SPRING_RABBITMQ_USERNAME: ${RABBIT_USER:?Zmienna RABBIT_USER jest wymagana}
+      SPRING_RABBITMQ_PASSWORD: ${RABBIT_PASSWORD:?Zmienna RABBIT_PASSWORD jest wymagana}
+    networks:
+      - scanner-net
+
+networks:
+  scanner-net:
+
+volumes:
+  rabbitmq-data:
