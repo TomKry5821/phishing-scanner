@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class PhishingScannerApplication {
 
-  static void main(String[] args) {
+  public static void main(String[] args) {
     SpringApplication.run(PhishingScannerApplication.class, args);
   }
 }

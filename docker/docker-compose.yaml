@@ -17,9 +17,13 @@ services:
       - scanner-net
 
   scanner:
-    build: ../
+    image: tk582186/phishing-scanner:0.0.1-SNAPSHOT
     container_name: scanner
     restart: unless-stopped
+    depends_on:
+      - rabbit
+    env_file:
+      - scanner/.env
     environment:
       SPRING_RABBITMQ_HOST: ${RABBIT_HOST:?Zmienna RABBIT_HOST jest wymagana}
       SPRING_RABBITMQ_PORT: ${RABBIT_PORT:?Zmienna RABBIT_PORT jest wymagana}

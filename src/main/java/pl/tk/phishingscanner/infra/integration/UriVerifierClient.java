@@ -43,7 +43,7 @@ public class UriVerifierClient {
                         uri,
                         e.getClass(),
                         e.getMessage()))
-            .onErrorResume(_ -> Mono.empty())
+            .onErrorResume(t -> Mono.empty())
             .blockOptional();
     log.debug("Successfully retrieved response for URI: {} verification: {}", uri, response);
     return response;

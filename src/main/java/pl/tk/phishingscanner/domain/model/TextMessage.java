@@ -8,8 +8,7 @@ public record TextMessage(
     PhoneNumber sender, PhoneNumber receiver, String content, TextMessageType type) {
 
   public TextMessage(PhoneNumber sender, PhoneNumber receiver, String content) {
-    TextMessageType messageType = getMessageType(content);
-    this(sender, receiver, content, messageType);
+    this(sender, receiver, content, getMessageType(content));
   }
 
   private static TextMessageType getMessageType(String content) {

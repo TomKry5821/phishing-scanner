@@ -8,6 +8,7 @@ google-libphonenumber-version = '9.0.15'
 h2db-version = '2.4.240'
 
 lombok-plugin-version = '8.14'
+jib-plugin-version = '3.4.5'
 
 groovy-version = '4.0.27'
 spock-version = '2.4-M6-groovy-4.0'
@@ -36,6 +37,7 @@ spring-cloud-stream-test-binder = { group = 'org.springframework.cloud', name = 
 spring-boot-plugin = { id = 'org.springframework.boot', version.ref = 'spring-boot-version' }
 spring-dependency-management-plugin = { id = 'io.spring.dependency-management', version.ref = 'spring-dependency-management-version' }
 lombok-plugin = { id = 'io.freefair.lombok', version.ref = 'lombok-plugin-version' }
+jib-plugin = { id = "com.google.cloud.tools.jib", version.ref = "jib-plugin-version" }
 
 [bundles]
 spring-boot = [
