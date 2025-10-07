@@ -22,7 +22,7 @@ class UseCaseStrategySpec extends Specification {
 
     void 'Should get proper use case for text message type'() {
         given:
-        def phoneNumber = new PhoneNumber(phishingScannerConfiguration.scannerPhoneNumber)
+        def phoneNumber = new PhoneNumber(phishingScannerConfiguration.phoneNumber)
         def message = new TextMessage(phoneNumber, phoneNumber, content)
 
         when:

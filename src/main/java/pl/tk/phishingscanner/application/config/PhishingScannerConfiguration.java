@@ -13,5 +13,5 @@ public class PhishingScannerConfiguration {
    * Numer telefonu w formacie 48123123123, na który przychodzą wiadomość włączające lub wyłączające
    * usługę skanowania.
    */
-  private String scannerPhoneNumber;
+  private String phoneNumber;
 }

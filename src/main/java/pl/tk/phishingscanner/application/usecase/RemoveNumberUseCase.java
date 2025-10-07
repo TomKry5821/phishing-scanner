@@ -36,6 +36,6 @@ public class RemoveNumberUseCase implements UseCase {
 
   @Override
   public boolean acceptsPhoneNumber(PhoneNumber phoneNumber) {
-    return config.getScannerPhoneNumber().equals(phoneNumber.getNumberAsString());
+    return config.getPhoneNumber().equals(phoneNumber.getNumberAsString());
   }
 }
