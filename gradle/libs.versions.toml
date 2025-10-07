@@ -2,8 +2,13 @@
 spring-dependency-management-version = '1.1.7'
 
 spring-boot-version = '3.5.6'
+spring-cloud-version = '4.3.0'
+
+google-libphonenumber-version = '9.0.15'
+h2db-version = '2.4.240'
 
 lombok-plugin-version = '8.14'
+jib-plugin-version = '3.4.5'
 
 groovy-version = '4.0.27'
 spock-version = '2.4-M6-groovy-4.0'
@@ -11,6 +16,14 @@ spock-version = '2.4-M6-groovy-4.0'
 [libraries]
 spring-boot-config-processor = { group = 'org.springframework.boot', name = 'spring-boot-configuration-processor', version.ref = 'spring-boot-version' }
 spring-boot-starter = { group = 'org.springframework.boot', name = 'spring-boot-starter', version.ref = 'spring-boot-version' }
+spring-boot-starter-webflux = { group = 'org.springframework.boot', name = 'spring-boot-starter-webflux', version.ref = 'spring-boot-version' }
+spring-boot-starter-data-jpa = { group = 'org.springframework.boot', name = 'spring-boot-starter-data-jpa', version.ref = 'spring-boot-version' }
+
+spring-cloud-stream-rabbit-binder = { group = 'org.springframework.cloud', name = 'spring-cloud-stream-binder-rabbit', version.ref = 'spring-cloud-version' }
+spring-cloud-stream = { group = 'org.springframework.cloud', name = 'spring-cloud-stream', version.ref = 'spring-cloud-version' }
+
+google-libphonenumber = { group = 'com.googlecode.libphonenumber', name = 'libphonenumber', version.ref = 'google-libphonenumber-version' }
+h2db = { group = 'com.h2database', name = 'h2', version.ref = 'h2db-version' }
 
 spock-core = { group = 'org.spockframework', name = 'spock-core', version.ref = 'spock-version' }
 spock-spring = { group = 'org.spockframework', name = 'spock-spring', version.ref = 'spock-version' }
@@ -18,15 +31,23 @@ spock-spring = { group = 'org.spockframework', name = 'spock-spring', version.re
 groovy = { group = 'org.apache.groovy', name = 'groovy-all', version.ref = 'groovy-version' }
 
 spring-boot-starter-test = { group = 'org.springframework.boot', name = 'spring-boot-starter-test', version.ref = 'spring-boot-version' }
+spring-cloud-stream-test-binder = { group = 'org.springframework.cloud', name = 'spring-cloud-stream-test-binder', version.ref = 'spring-cloud-version' }
 
 [plugins]
 spring-boot-plugin = { id = 'org.springframework.boot', version.ref = 'spring-boot-version' }
 spring-dependency-management-plugin = { id = 'io.spring.dependency-management', version.ref = 'spring-dependency-management-version' }
 lombok-plugin = { id = 'io.freefair.lombok', version.ref = 'lombok-plugin-version' }
+jib-plugin = { id = "com.google.cloud.tools.jib", version.ref = "jib-plugin-version" }
 
 [bundles]
 spring-boot = [
     'spring-boot-starter',
+    'spring-boot-starter-webflux',
+    'spring-boot-starter-data-jpa'
+]
+spring-cloud-stream = [
+    'spring-cloud-stream',
+    'spring-cloud-stream-rabbit-binder'
 ]
 test-spock = [
     'spock-core',

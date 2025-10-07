@@ -4,6 +4,7 @@ plugins {
     alias libs.plugins.spring.dependency.management.plugin
     alias libs.plugins.spring.boot.plugin
     alias libs.plugins.lombok.plugin
+    alias libs.plugins.jib.plugin
 }
 
 group = 'pl.tk.phishing-scanner'
@@ -12,7 +13,7 @@ description = 'phishing-scanner'
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(25)
+        languageVersion = JavaLanguageVersion.of(21)
     }
 }
 
@@ -26,13 +27,35 @@ repositories {
     mavenCentral()
 }
 
+jib {
+    from.image = 'openjdk:21-jdk'
+    to {
+        image = "tk582186/phishing-scanner:$version"
+        auth {
+            username = findProperty('DOCKER_USERNAME') ?: System.getenv('DOCKER_USERNAME')
+            password = findProperty('DOCKER_PASSWORD') ?: System.getenv('DOCKER_PASSWORD')
+        }
+    }
+    container {
+        user = '1001'
+        mainClass = 'pl.tk.phishingscanner.PhishingScannerApplication'
+    }
+    extraDirectories.paths = files('build/libs')
+}
+
 dependencies {
     implementation libs.bundles.spring.boot
+    implementation libs.bundles.spring.cloud.stream
+
+    implementation libs.google.libphonenumber
 
     implementation libs.groovy
 
     testImplementation libs.bundles.test.spock
     testImplementation libs.spring.boot.starter.test
+    testImplementation libs.spring.cloud.stream.test.binder
+
+    runtimeOnly libs.h2db
 
     annotationProcessor libs.spring.boot.config.processor
 }
